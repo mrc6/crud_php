@@ -1,5 +1,5 @@
-<?php //https://www.youtube.com/watch?v=aIQXgNmx_ug  ?>
 <?php 
+  //https://www.youtube.com/watch?v=aIQXgNmx_ug
   session_start();
   require "connect.php";
 ?>
