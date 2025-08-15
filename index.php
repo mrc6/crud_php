@@ -1,5 +1,8 @@
 <?php //https://www.youtube.com/watch?v=aIQXgNmx_ug  ?>
-<?php require "connect.php"; ?>
+<?php 
+  session_start();
+  require "connect.php";
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,6 +14,7 @@
   <body>
 	  <?php include("navbar.php"); ?>
 	  <div class="container mt4">
+		<?php include('message.php'); ?>
 	    <div class="row">
 			<div class="col-md-12">
 				<div class="card">
@@ -29,19 +33,34 @@
 							<th>Ações</th>
 						</tr></thead>
 						<tbody>
-						  <td>1</td>
-						  <td>Teste</td>
-						  <td>teste@gmail.com</td>
-						  <td>15/01/1983</td>
-						  <td>
-						    <a href="" class="btn btn-secondary btn-sm">Visualizar</a>
-						    <a href="" class="btn btn-success btn-sm">Editar</a>
-						    <form action="" method="POST" class="d-inline">
-						      <button type="submit" name="delete_usuario" value="1" class="btn btn-danger btn-sm">
-						        Excluir
-						      </button>
-						    </form>
-						  </td>
+						  <?php 
+							$query = 'SELECT * FROM usuarios';
+							$usuarios = mysqli_query($conexao, $query);
+							if(mysqli_num_rows($usuarios) > 0){
+							  foreach($usuarios as $usuario){
+						  ?>
+						  <tr>
+							  <td><?= $usuario['id'] ?></td>
+						    <td><?= $usuario['nome'] ?></td>
+						    <td><?= $usuario['email'] ?></td>
+						    <td><?= date('d/m/Y', strtotime($usuario['data_nascimento'])) ?></td>
+						    <td>
+						      <a href="user-view.php?id=<?= $usuario['id'] ?>" class="btn btn-secondary btn-sm">Visualizar</a>
+						      <a href="user-edit.php?id=<?= $usuario['id'] ?>" class="btn btn-success btn-sm">Editar</a>
+						      <form action="actions.php" method="POST" class="d-inline">
+						        <button type="submit" onclick="return confirm('Tem certeza que deseja excluir ?')" name="delete_usuario" value="<?= $usuario['id'] ?>" class="btn btn-danger btn-sm">
+						          Excluir
+						        </button>
+						      </form>
+						    </td>
+						  </tr>
+						  <?php 
+					          }
+					        }
+					        else {
+							  echo "<h5>Nenhum usuário encontrado</h5>";
+							}
+						  ?>
 						</tbody>
 				    </table>
 				  </div>

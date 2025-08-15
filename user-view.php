@@ -1,9 +1,13 @@
+<?php 
+  session_start();
+  require "connect.php";
+?>
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Usuário - Visualizar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
   </head>
   <body>
@@ -13,33 +17,44 @@
 	      <div class="col-md-12">
 	        <div class="card">
 	          <div class="card-header">
-	            <h4>Adicionar Usuário
+	            <h4>Visualizar Usuário
 	              <a href="index.php" class="btn btn-danger float-end">Voltar</a>
 	            </h4>
 	          </div>
 	          <div class="card-body">
-	            <form action="actions.php" method="POST">
+				<?php
+				  if($_GET['id']){
+				    $usuario_id = mysqli_real_escape_string($conexao, $_GET['id']);
+				    $query = "SELECT * FROM usuarios WHERE id='$usuario_id'";
+				    $result = mysqli_query($conexao, $query);
+				    if(mysqli_num_rows($result) > 0){
+					  $usuario = mysqli_fetch_array($result);
+				?>
 					<div class="mb-3">
 					  <label>Nome</label>
-					  <input type="text" name="nome" class="form-control"></input>
+					  <p class="form-control">
+					    <?= $usuario['nome'] ?>
+					  </p>
 					</div>
 					<div class="mb-3">
-					  <label>E-mail</label>
-					  <input type="text" name="email" class="form-control"></input>
+					  <label>Email</label>
+					  <p class="form-control">
+					    <?= $usuario['email'] ?>
+					  </p>
 					</div>
 					<div class="mb-3">
-					  <label>Data de Nascimento</label>
-					  <input type="date" name="data_nascimento" class="form-control"></input>
+					  <label>Data Nascimento</label>
+					  <p class="form-control">
+					    <?= date('d/m/Y', strtotime($usuario['data_nascimento'])) ?>
+					  </p>
 					</div>
-					<div class="mb-3">
-					  <label>Senha</label>
-					  <input type="password" name="senha" class="form-control"></input>
-					</div>
-					<div class="mb-3">
-					  <button type="submit" name="create_usuario" class="btn btn-primary">Salvar</button>
-					</div>
-	            </form>
-	          </div>
+				<?php 
+				    }
+				    else {
+				      echo "<h5>Usuário não encontrado!</h5>";
+				    }
+			      }
+				?>
 	        </div>
 	      </div>
 	    </div>
