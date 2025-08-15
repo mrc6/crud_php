@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   </head>
   <body>
 	  <?php include("navbar.php"); ?>
@@ -45,11 +46,11 @@
 						    <td><?= $usuario['email'] ?></td>
 						    <td><?= date('d/m/Y', strtotime($usuario['data_nascimento'])) ?></td>
 						    <td>
-						      <a href="user-view.php?id=<?= $usuario['id'] ?>" class="btn btn-secondary btn-sm">Visualizar</a>
-						      <a href="user-edit.php?id=<?= $usuario['id'] ?>" class="btn btn-success btn-sm">Editar</a>
+						      <a href="user-view.php?id=<?= $usuario['id'] ?>" class="btn btn-secondary btn-sm"><span class="bi-eye-fill"></span>&nbsp;Visualizar</a>
+						      <a href="user-edit.php?id=<?= $usuario['id'] ?>" class="btn btn-success btn-sm"><span class="bi-pencil-fill"></span>&nbsp;Editar</a>
 						      <form action="actions.php" method="POST" class="d-inline">
 						        <button type="submit" onclick="return confirm('Tem certeza que deseja excluir ?')" name="delete_usuario" value="<?= $usuario['id'] ?>" class="btn btn-danger btn-sm">
-						          Excluir
+						          <span class="bi-trash3-fill"></span>&nbsp;Excluir
 						        </button>
 						      </form>
 						    </td>
